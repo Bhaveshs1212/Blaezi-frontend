@@ -1,9 +1,27 @@
+import { useState, useEffect, useRef } from "react";
 import { Checkbox } from "../../components/ui/checkbox";
 import { Badge } from "../../components/ui/badge";
 import { useProjects } from "../../context/ProjectContext";
+import { MoreVertical } from "lucide-react";
 
 export default function ProjectCard({ project }) {
-  const { toggleMilestone } = useProjects();
+  const { toggleMilestone, updateProjectStatus } = useProjects();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [menuOpen]);
 
   const total = project.milestones.length;
   const completed = project.milestones.filter(m => m.completed).length;
@@ -12,37 +30,78 @@ export default function ProjectCard({ project }) {
   const statusConfig = {
     "on-track": {
       label: "On track",
-      className: "bg-blue-100 text-blue-700 border border-blue-200",
+      className: "bg-green-50 text-green-700 border border-green-100 rounded-full px-4 py-1.5 text-xs font-medium",
     },
     "at-risk": {
-      label: "Needs attention",
-      className: "bg-purple-100 text-purple-700 border border-purple-200",
+      label: "At risk",
+      className: "bg-yellow-50 text-yellow-700 border border-yellow-100 rounded-full px-4 py-1.5 text-xs font-medium",
     },
     delayed: {
       label: "Delayed",
-      className: "bg-indigo-100 text-indigo-700 border border-indigo-200",
+      className: "bg-red-50 text-red-700 border border-red-100 rounded-full px-4 py-1.5 text-xs font-medium",
+    },
+    completed: {
+      label: "✓ Completed",
+      className: "bg-[#6366F1] text-white border border-[#6366F1] rounded-full px-4 py-1.5 text-xs font-medium",
     },
   };
 
   const status = statusConfig[project.health];
 
   return (
-    <div className="rounded-xl bg-gradient-to-br from-white to-slate-50/30 border border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 transition-all duration-300 p-6 space-y-6">
+    <div className="rounded-3xl bg-white border border-gray-100 hover:shadow-sm transition-shadow p-10 space-y-6">
       {/* HEADER */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-slate-900">
+          <h3 className="text-2xl font-semibold text-gray-900 mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {project.title}
           </h3>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {project.description}
           </p>
         </div>
 
-        {/* STATUS BADGE */}
-        <Badge className={`${status.className} shrink-0`}>
-          {status.label}
-        </Badge>
+        <div className="flex items-center gap-3">
+          {/* STATUS BADGE */}
+          <span className={status.className} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            {status.label}
+          </span>
+          
+          {/* MENU */}
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 hover:bg-gray-50 rounded-full transition-colors"
+            >
+              <MoreVertical className="w-5 h-5 text-gray-600" />
+            </button>
+            
+            {menuOpen && (
+              <div className="absolute right-0 top-10 bg-white border border-gray-100 rounded-2xl shadow-sm py-2 z-10 min-w-[180px]">
+                <button
+                  onClick={() => {
+                    updateProjectStatus(project.id || project._id, 'active');
+                    setMenuOpen(false);
+                  }}
+                  className="w-full px-5 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors font-medium text-gray-700"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  Mark as Active
+                </button>
+                <button
+                  onClick={() => {
+                    updateProjectStatus(project.id || project._id, 'completed');
+                    setMenuOpen(false);
+                  }}
+                  className="w-full px-5 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors font-medium text-[#6366F1]"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  ✓ Mark as Completed
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* PROGRESS */}

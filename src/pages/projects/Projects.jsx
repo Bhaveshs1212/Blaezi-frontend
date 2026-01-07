@@ -1,60 +1,129 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useProjects } from "../../context/ProjectContext";
+import { useAuth } from "../../context/AuthContext";
 import ProjectCard from "./ProjectCard";
 import { daysSince } from "../../utils/time";
+import { Button } from "../../components/ui/button";
+import { Github } from "lucide-react";
 
 export default function Projects() {
-  const { projects } = useProjects();
+  const { projects, syncProjects } = useProjects();
+  const { user } = useAuth();
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
 
-  // Calculate health for each project
+  const handleGitHubSync = async () => {
+    setSyncing(true);
+    setSyncMessage("");
+    
+    try {
+      // Check if user has GitHub username configured
+      if (!user?.githubUsername) {
+        setSyncMessage("Please add your GitHub username in Settings first!");
+        setTimeout(() => setSyncMessage(""), 5000);
+        setSyncing(false);
+        return;
+      }
+
+      setSyncMessage("🔄 Syncing repositories from GitHub...");
+
+      // Backend handles fetching from GitHub and storing
+      const result = await syncProjects(user.githubUsername);
+      
+      console.log('Sync result:', result);
+      
+      if (!result.count || result.count === 0) {
+        setSyncMessage("⚠️ No repositories were synced. Check if your GitHub username has public repos or if backend has validation errors.");
+      } else {
+        setSyncMessage(`✓ Successfully synced ${result.count || result.synced || 0} repositories from GitHub!`);
+      }
+      setTimeout(() => setSyncMessage(""), 8000);
+    } catch (error) {
+      console.error('GitHub sync error:', error);
+      let errorMsg = 'Sync failed';
+      
+      if (error.response?.data?.error) {
+        errorMsg = error.response.data.error;
+      } else if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      } else if (error.message) {
+        errorMsg = error.message;
+      }
+      
+      setSyncMessage(`❌ ${errorMsg}`);
+      setTimeout(() => setSyncMessage(""), 8000);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  // Use backend's healthStatus, override only if status is completed
   const projectsWithHealth = useMemo(() => {
+    if (!Array.isArray(projects)) return [];
+    
     return projects.map((project) => {
-      const total = project.milestones.length;
-      const completed = project.milestones.filter(
-        (m) => m.completed
-      ).length;
-      const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
-      const inactiveDays = daysSince(project.lastWorkedAt);
+      // If project is marked as completed, show completed status
+      const health = project.status === 'completed' 
+        ? 'completed' 
+        : (project.healthStatus || 'on-track');
 
-      const health =
-        inactiveDays > 14 && progress < 90
-          ? "delayed"
-          : inactiveDays > 5 && progress < 60
-          ? "at-risk"
-          : "on-track";
-
-      return { ...project, health, title: project.name };
+      return { 
+        ...project, 
+        health,
+        title: project.name || project.title || 'Untitled Project',
+        milestones: project.milestones || []
+      };
     });
   }, [projects]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* HEADER */}
-      <header className="space-y-1">
-        <h1 className="text-3xl font-bold text-slate-900">
-          Projects
-        </h1>
-        <p className="text-sm text-slate-600">
-          Track execution and maintain momentum
-        </p>
+      <header className="flex justify-between items-start">
+        <div className="space-y-2">
+          <h1 className="text-5xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Projects
+          </h1>
+          <p className="text-lg text-gray-500 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Track execution and maintain momentum
+          </p>
+        </div>
+        
+        {/* GitHub Sync Button */}
+        <Button
+          onClick={handleGitHubSync}
+          disabled={syncing}
+          className="flex items-center gap-2 bg-[#6366F1] hover:bg-[#5558E3] text-white rounded-full px-6 py-3 font-semibold"
+          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+        >
+          <Github className="w-4 h-4" />
+          {syncing ? "Syncing..." : "Sync from GitHub"}
+        </Button>
       </header>
 
+      {/* Sync Message */}
+      {syncMessage && (
+        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm">
+          {syncMessage}
+        </div>
+      )}
+
       {/* OVERVIEW */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <OverviewCard
           label="On Track"
           value={projectsWithHealth.filter(p => p.health === "on-track").length}
-          color="text-emerald-600"
+          color="text-[#6366F1]"
         />
         <OverviewCard
           label="At Risk"
           value={projectsWithHealth.filter(p => p.health === "at-risk").length}
-          color="text-yellow-600"
+          color="text-[#6366F1]"
         />
         <OverviewCard
           label="Delayed"
           value={projectsWithHealth.filter(p => p.health === "delayed").length}
-          color="text-red-600"
+          color="text-[#6366F1]"
         />
       </section>
 
@@ -75,22 +144,10 @@ export default function Projects() {
 /* ---------- SMALL COMPONENTS ---------- */
 
 function OverviewCard({ label, value, color }) {
-  const bgGradients = {
-    "text-emerald-600": "bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200",
-    "text-yellow-600": "bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200",
-    "text-red-600": "bg-gradient-to-br from-indigo-50 to-blue-50 border-indigo-200"
-  };
-
-  const textColors = {
-    "text-emerald-600": "text-blue-600",
-    "text-yellow-600": "text-purple-600",
-    "text-red-600": "text-indigo-600"
-  };
-
   return (
-    <div className={`rounded-lg border shadow-sm hover:shadow-md transition-all duration-200 p-6 ${bgGradients[color] || "bg-white border-slate-200"}`}>
-      <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider">{label}</p>
-      <p className={`text-4xl font-bold mt-3 ${textColors[color] || color}`}>
+    <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <p className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</p>
+      <p className={`text-4xl font-bold ${color}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {value}
       </p>
     </div>
@@ -99,17 +156,12 @@ function OverviewCard({ label, value, color }) {
 
 function EmptyState() {
   return (
-    <div className="rounded-xl border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100/50 p-12 text-center">
-      <div className="inline-block p-3 rounded-full bg-indigo-100/50 mb-3">
-        <svg className="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      </div>
-      <p className="text-slate-600 text-sm font-medium">
+    <div className="rounded-3xl border border-gray-200 bg-gray-50 p-16 text-center">
+      <p className="text-gray-600 text-lg font-light mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         No projects yet
       </p>
-      <p className="text-slate-500 text-xs mt-1">
-        Add your first project to start tracking progress
+      <p className="text-gray-500 text-base font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        Sync from GitHub to start tracking your projects
       </p>
     </div>
   );
