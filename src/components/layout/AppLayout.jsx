@@ -4,7 +4,7 @@ import Topbar from "./Topbar";
 
 export default function AppLayout() {
   return (
-    <div className="flex min-h-screen font-sans bg-gradient-to-br from-indigo-100/40 via-slate-50 to-purple-100/40">
+    <div className="flex min-h-screen bg-white">
       {/* Sidebar */}
       <Sidebar />
 
@@ -12,12 +12,9 @@ export default function AppLayout() {
       <div className="flex flex-col flex-1">
         <Topbar />
 
-        <main className="flex-1 overflow-y-auto">
-          {/* Content surface */}
-          <div className="min-h-full bg-slate-50/80 backdrop-blur-sm">
-            <div className="max-w-6xl mx-auto px-6 py-10">
-              <Outlet />
-            </div>
+      <main className="flex-1 overflow-y-auto bg-gray-50">
+          <div className="max-w-[1200px] mx-auto px-8 py-12">
+            <Outlet />
           </div>
         </main>
       </div>

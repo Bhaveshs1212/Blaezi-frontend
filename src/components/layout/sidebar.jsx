@@ -2,21 +2,18 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 px-4 py-6">
+    <aside className="w-64 bg-white border-r border-gray-100 px-6 py-8">
       {/* Brand */}
-      <div className="mb-10">
-        <h1 className="font-heading text-2xl font-semibold text-indigo-600">
+      <div className="mb-12">
+        <h1 className="text-2xl font-semibold text-[#6366F1] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Blaezi
         </h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Productivity OS
-        </p>
       </div>
 
       {/* Navigation */}
       <nav className="space-y-1">
         <SidebarLink to="/dashboard" label="Dashboard" />
-        <SidebarLink to="/dsa/problems" label="DSA Forge" />
+        <SidebarLink to="/dsa" label="DSA Practice" />
         <SidebarLink to="/projects" label="Projects" />
         <SidebarLink to="/career" label="Career" />
         <SidebarLink to="/analytics" label="Analytics" />
@@ -31,13 +28,14 @@ function SidebarLink({ to, label }) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center px-3 py-2 rounded-lg text-sm font-medium transition
+        `flex items-center px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200
         ${
           isActive
-            ? "bg-indigo-50 text-indigo-700"
-            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+            ? "bg-[#6366F1] text-white"
+            : "text-gray-700 hover:bg-gray-50"
         }`
       }
+      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
     >
       {label}
     </NavLink>
