@@ -1,41 +1,70 @@
+import { daysSince } from "./time";
+
 /**
- * Calculate career / exam pressure based on approaching deadlines.
- * Pressure increases smoothly as deadline approaches.
- *
- * @param {Array} events - career events with a `date` field
- * @param {Object} config - optional tuning parameters
- * @returns {number} pressure (0–100)
+ * Career Pressure Calculation
+ * ----------------------------
+ * Pressure increases as deadlines approach
+ * Pressure decreases as preparation progresses
  */
-export function calculateCareerPressure(
-  events,
-  config = {
-    decayRate: 30, // lower = pressure rises faster
-    maxPressure: 100,
-  }
-) {
+export function calculateCareerPressure(events) {
   if (!events || events.length === 0) return 0;
 
-  const today = new Date();
   let maxPressure = 0;
 
   events.forEach((event) => {
-    const deadline = new Date(event.date);
+    if (event.completed) return;
 
-    const daysLeft = Math.max(
-      0,
-      Math.ceil((deadline - today) / (1000 * 60 * 60 * 24))
+    const daysLeft = daysSince(event.date);
+
+    // --------------------
+    // STEP 1: Time urgency
+    // --------------------
+    let timeUrgency = 0;
+
+    if (daysLeft <= 0) {
+      timeUrgency = 100;
+    } else if (daysLeft <= 7) {
+      timeUrgency = 90;
+    } else if (daysLeft <= 14) {
+      timeUrgency = 75;
+    } else if (daysLeft <= 30) {
+      timeUrgency = 50;
+    } else if (daysLeft <= 60) {
+      timeUrgency = 30;
+    } else {
+      timeUrgency = 15;
+    }
+
+    // --------------------------------
+    // STEP 2: Preparation completeness
+    // --------------------------------
+    let prepFactor = 1;
+
+    if (
+      event.preparation &&
+      event.preparation.length > 0
+    ) {
+      const total = event.preparation.length;
+      const done = event.preparation.filter(
+        (s) => s.done
+      ).length;
+
+      const prepProgress = done / total;
+
+      prepFactor = 1 - prepProgress;
+    }
+
+    // --------------------------------
+    // STEP 3: Final pressure
+    // --------------------------------
+    const eventPressure = Math.round(
+      timeUrgency * prepFactor
     );
 
-    // Continuous exponential pressure curve
-    const pressure = Math.min(
-      config.maxPressure,
-      Math.round(
-        config.maxPressure *
-          Math.exp(-daysLeft / config.decayRate)
-      )
+    maxPressure = Math.max(
+      maxPressure,
+      eventPressure
     );
-
-    maxPressure = Math.max(maxPressure, pressure);
   });
 
   return maxPressure;

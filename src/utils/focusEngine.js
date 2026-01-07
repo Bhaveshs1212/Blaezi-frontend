@@ -22,9 +22,18 @@ export function getFocusRecommendation(pressureProfile) {
   }
 
   // Sort pillars by pressure (highest first)
-  const sorted = [...pressureProfile].sort(
-    (a, b) => b.pressure - a.pressure
-  );
+  // When pressures are equal or very close (within 5 points), prioritize DSA
+  const sorted = [...pressureProfile].sort((a, b) => {
+    const diff = b.pressure - a.pressure;
+    
+    // If pressures are very close (within 5 points), prioritize DSA
+    if (Math.abs(diff) <= 5) {
+      if (a.pillar === "dsa") return -1;
+      if (b.pillar === "dsa") return 1;
+    }
+    
+    return diff;
+  });
 
   const top = sorted[0];
 

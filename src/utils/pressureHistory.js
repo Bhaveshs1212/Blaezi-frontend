@@ -14,6 +14,18 @@ export function savePressureSnapshot(profile) {
   const existing =
     JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
+  // Check if today's entry exists and is identical
+  const todayEntry = existing.find(s => s.date === today);
+  if (todayEntry) {
+    // Compare pressures - if identical, don't save
+    const identical = Object.keys(snapshot.pressures).every(
+      key => todayEntry.pressures[key] === snapshot.pressures[key]
+    );
+    if (identical) {
+      return; // No changes, skip save
+    }
+  }
+
   // Avoid duplicate entry for same day
   const filtered = existing.filter(
     (s) => s.date !== today
