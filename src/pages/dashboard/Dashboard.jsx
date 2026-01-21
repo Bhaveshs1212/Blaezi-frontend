@@ -161,13 +161,13 @@ export default function Dashboard() {
   /* ---------------- UI ---------------- */
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8 sm:space-y-12">
       {/* PAGE HEADER */}
       <header>
-        <h1 className="text-5xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Today
         </h1>
-        <p className="text-lg text-gray-500 font-light mt-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <p className="text-base sm:text-lg text-gray-500 font-light mt-2 sm:mt-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Your current focus and overall momentum
         </p>
       </header>
@@ -195,7 +195,7 @@ export default function Dashboard() {
       </section>
 
       {/* STATUS OVERVIEW */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <StatusCard
           title="Projects"
           value={
@@ -231,21 +231,21 @@ export default function Dashboard() {
       </section>
 
       {/* MOMENTUM */}
-      <section className="rounded-3xl bg-white border border-gray-100 p-10 shadow-sm">
-        <p className="text-sm font-medium text-gray-500 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 shadow-sm">
+        <p className="text-sm font-medium text-gray-500 mb-4 sm:mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Overall Momentum
         </p>
 
-        <div className="flex items-center gap-8 mt-2">
-          <span className="text-7xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mt-2">
+          <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {blaeziScore}
           </span>
 
           <div>
-            <p className="text-gray-900 font-semibold text-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p className="text-gray-900 font-semibold text-base sm:text-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Balanced but improvable
             </p>
-            <p className="text-base text-gray-600 font-light max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p className="text-sm sm:text-base text-gray-600 font-light max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
               Consistency across projects and DSA will steadily
               raise your momentum.
             </p>
@@ -262,7 +262,7 @@ export default function Dashboard() {
       </section>
 
       {/* PRESSURE DETAILS */}
-      <section className="rounded-3xl bg-white border border-gray-100 p-10 space-y-6 shadow-sm">
+      <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 space-y-4 sm:space-y-6 shadow-sm">
         <PressureBar
           label="Projects"
           value={projectsPressure}
@@ -283,11 +283,11 @@ export default function Dashboard() {
       </section>
 
       {/* WEEKLY SUMMARY */}
-      <section className="rounded-3xl bg-white border border-gray-200 p-8 shadow-sm">
+      <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">
         <p className="text-sm font-semibold text-gray-700 mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           This week so far
         </p>
-        <p className="text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <p className="text-sm sm:text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           {weeklySummary.message}
         </p>
       </section>
@@ -299,9 +299,9 @@ export default function Dashboard() {
 
 function StatusCard({ title, value }) {
   return (
-    <div className="rounded-3xl bg-white border border-gray-100 p-8 shadow-sm">
+    <div className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 shadow-sm">
       <p className="text-sm font-medium text-gray-500 mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{title}</p>
-      <p className="text-xl font-semibold text-gray-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <p className="text-lg sm:text-xl font-semibold text-gray-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {value}
       </p>
     </div>

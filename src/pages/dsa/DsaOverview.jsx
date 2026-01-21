@@ -92,52 +92,52 @@ export default function DsaOverview() {
       </Button>
 
       {/* DSA Score */}
-      <div className="rounded-3xl bg-[#6366F1] text-white p-12 shadow-lg">
-        <p className="text-xs uppercase tracking-widest text-white/60 mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="rounded-2xl sm:rounded-3xl bg-[#6366F1] text-white p-6 sm:p-10 lg:p-12 shadow-lg">
+        <p className="text-xs uppercase tracking-widest text-white/60 mb-3 sm:mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           DSA Score
         </p>
 
-        <div className="flex items-end gap-3 mb-6">
-          <span className="text-7xl font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <div className="flex items-end gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <span className="text-5xl sm:text-6xl lg:text-7xl font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {dsaScore}
           </span>
-          <span className="text-3xl mb-2 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>/ 100</span>
+          <span className="text-2xl sm:text-3xl mb-1 sm:mb-2 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>/ 100</span>
         </div>
 
-        <p className="text-base text-white/80 font-light max-w-2xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <p className="text-sm sm:text-base text-white/80 font-light max-w-2xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           Indicates how prepared you are across problem types and confidence levels
         </p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <StatCard label="Solved" value={stats.solved} />
         <StatCard label="Revising" value={stats.revising} />
         <StatCard label="Weak" value={stats.weak} />
       </div>
 
       {/* View Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <button
           onClick={() => navigate("/dsa/topics")}
-          className="rounded-3xl bg-white border border-gray-100 p-10 text-left hover:shadow-sm transition-shadow"
+          className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 text-left hover:shadow-md transition-shadow"
         >
-          <h3 className="text-2xl font-semibold text-[#6366F1] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h3 className="text-xl sm:text-2xl font-semibold text-[#6366F1] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             View by Topics
           </h3>
-          <p className="text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-sm sm:text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Organize problems by data structure and algorithm type
           </p>
         </button>
 
         <button
           onClick={() => navigate("/dsa/problems")}
-          className="rounded-3xl bg-white border border-gray-100 p-10 text-left hover:shadow-sm transition-shadow"
+          className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 text-left hover:shadow-md transition-shadow"
         >
-          <h3 className="text-2xl font-semibold text-[#6366F1] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h3 className="text-xl sm:text-2xl font-semibold text-[#6366F1] mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             All Problems
           </h3>
-          <p className="text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-sm sm:text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             View, search, and practice DSA problems
           </p>
         </button>
@@ -148,11 +148,11 @@ export default function DsaOverview() {
 
 function StatCard({ label, value }) {
   return (
-    <div className="rounded-3xl bg-white border border-gray-100 p-8">
-      <p className="text-xs uppercase tracking-widest text-gray-500 mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8">
+      <p className="text-xs uppercase tracking-widest text-gray-500 mb-2 sm:mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {label}
       </p>
-      <span className="text-4xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <span className="text-3xl sm:text-4xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {value}
       </span>
     </div>

@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, User, Settings, ChevronDown } from 'lucide-react';
+import { LogOut, User, Settings, ChevronDown, Menu } from 'lucide-react';
 
-export default function Topbar() {
+export default function Topbar({ onMenuClick }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -41,26 +41,38 @@ export default function Topbar() {
   };
 
   return (
-    <header className="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-8">
-      <p className="text-sm text-gray-500 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <header className="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+      {/* Mobile menu button */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+        aria-label="Open menu"
+      >
+        <Menu className="w-5 h-5 text-gray-700" />
+      </button>
+
+      <p className="hidden sm:block text-sm text-gray-500 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         Track your progress, build your future
       </p>
       
-      <div className="flex items-center gap-4">
+      {/* Spacer for mobile when text is hidden */}
+      <div className="sm:hidden"></div>
+      
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* User Profile Dropdown */}
         {user && (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-3 px-4 py-2 rounded-full hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 rounded-full hover:bg-gray-50 transition-colors"
             >
               {/* Avatar with initials */}
               <div className="w-8 h-8 rounded-full bg-[#6366F1] flex items-center justify-center text-white text-sm font-medium">
                 {getInitials(user.name || user.email)}
               </div>
               
-              {/* User name */}
-              <span className="text-sm font-medium text-gray-800" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              {/* User name - hidden on very small screens */}
+              <span className="hidden sm:block text-sm font-medium text-gray-800 max-w-[120px] md:max-w-none truncate" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 {user.name || user.email}
               </span>
               
@@ -70,11 +82,11 @@ export default function Topbar() {
 
             {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className="absolute right-0 top-14 bg-white border border-gray-100 rounded-2xl shadow-sm py-2 z-50 min-w-[240px]">
+              <div className="absolute right-0 top-14 bg-white border border-gray-100 rounded-2xl shadow-lg py-2 z-50 min-w-[240px] max-w-[90vw]">
                 {/* User info */}
                 <div className="px-5 py-4 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{user.name}</p>
-                  <p className="text-xs text-gray-500 font-light mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900 truncate" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{user.name}</p>
+                  <p className="text-xs text-gray-500 font-light mt-1 truncate" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{user.email}</p>
                 </div>
 
                 {/* Settings */}

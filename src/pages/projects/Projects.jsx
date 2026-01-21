@@ -77,14 +77,14 @@ export default function Projects() {
   }, [projects]);
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8 sm:space-y-12">
       {/* HEADER */}
-      <header className="flex justify-between items-start">
-        <div className="space-y-2">
-          <h1 className="text-5xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <header className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0">
+        <div className="space-y-1 sm:space-y-2">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Projects
           </h1>
-          <p className="text-lg text-gray-500 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-base sm:text-lg text-gray-500 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Track execution and maintain momentum
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function Projects() {
         <Button
           onClick={handleGitHubSync}
           disabled={syncing}
-          className="flex items-center gap-2 bg-[#6366F1] hover:bg-[#5558E3] text-white rounded-full px-6 py-3 font-semibold"
+          className="flex items-center gap-2 bg-[#6366F1] hover:bg-[#5558E3] text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 font-semibold text-sm sm:text-base whitespace-nowrap"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
           <Github className="w-4 h-4" />
@@ -103,13 +103,13 @@ export default function Projects() {
 
       {/* Sync Message */}
       {syncMessage && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm">
+        <div className="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-xs sm:text-sm">
           {syncMessage}
         </div>
       )}
 
       {/* OVERVIEW */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <OverviewCard
           label="On Track"
           value={projectsWithHealth.filter(p => p.health === "on-track").length}
@@ -128,7 +128,7 @@ export default function Projects() {
       </section>
 
       {/* PROJECT LIST */}
-      <section className="space-y-6">
+      <section className="space-y-4 sm:space-y-6">
         {projectsWithHealth.length === 0 ? (
           <EmptyState />
         ) : (
@@ -145,9 +145,9 @@ export default function Projects() {
 
 function OverviewCard({ label, value, color }) {
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-      <p className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</p>
-      <p className={`text-4xl font-bold ${color}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="rounded-2xl sm:rounded-3xl border border-gray-100 bg-white p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <p className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-2 sm:mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</p>
+      <p className={`text-3xl sm:text-4xl font-bold ${color}`} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         {value}
       </p>
     </div>
@@ -156,11 +156,11 @@ function OverviewCard({ label, value, color }) {
 
 function EmptyState() {
   return (
-    <div className="rounded-3xl border border-gray-200 bg-gray-50 p-16 text-center">
-      <p className="text-gray-600 text-lg font-light mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="rounded-2xl sm:rounded-3xl border border-gray-200 bg-gray-50 p-10 sm:p-12 lg:p-16 text-center">
+      <p className="text-gray-600 text-base sm:text-lg font-light mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         No projects yet
       </p>
-      <p className="text-gray-500 text-base font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <p className="text-gray-500 text-sm sm:text-base font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
         Sync from GitHub to start tracking your projects
       </p>
     </div>

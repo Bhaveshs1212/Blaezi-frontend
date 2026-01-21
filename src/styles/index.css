@@ -25,6 +25,29 @@
   }
 }
 
+/* ========== RESPONSIVE UTILITIES ========== */
+@layer utilities {
+  /* Prevent text overflow on small screens */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Safe area padding for mobile devices */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Touch-friendly tap targets */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
 /* ========== SHADCN THEME TOKENS ========== */
 @layer base {
   :root {
@@ -54,5 +77,31 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+  }
+  
+  /* Base styles */
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Improve touch scrolling on iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }

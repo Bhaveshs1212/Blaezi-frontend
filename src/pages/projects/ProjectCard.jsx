@@ -49,19 +49,19 @@ export default function ProjectCard({ project }) {
   const status = statusConfig[project.health];
 
   return (
-    <div className="rounded-3xl bg-white border border-gray-100 hover:shadow-sm transition-shadow p-10 space-y-6">
+    <div className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 hover:shadow-md transition-shadow p-6 sm:p-8 lg:p-10 space-y-4 sm:space-y-6">
       {/* HEADER */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-4">
+        <div className="flex-1 w-full">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1 sm:mb-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {project.title}
           </h3>
-          <p className="text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-sm sm:text-base text-gray-600 font-light" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {project.description}
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 self-start">
           {/* STATUS BADGE */}
           <span className={status.className} style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {status.label}
@@ -77,7 +77,7 @@ export default function ProjectCard({ project }) {
             </button>
             
             {menuOpen && (
-              <div className="absolute right-0 top-10 bg-white border border-gray-100 rounded-2xl shadow-sm py-2 z-10 min-w-[180px]">
+              <div className="absolute right-0 top-10 bg-white border border-gray-100 rounded-2xl shadow-lg py-2 z-10 min-w-[180px]">
                 <button
                   onClick={() => {
                     updateProjectStatus(project.id || project._id, 'active');
@@ -125,11 +125,11 @@ export default function ProjectCard({ project }) {
       </div>
 
       {/* MILESTONES */}
-      <div className="space-y-2.5 pt-2 border-t border-slate-100">
+      <div className="space-y-2 sm:space-y-2.5 pt-2 border-t border-slate-100">
         {project.milestones.map((milestone) => (
           <label
             key={milestone.id}
-            className="flex items-center gap-3 text-sm cursor-pointer hover:bg-slate-50 -mx-2 px-2 py-1.5 rounded-md transition-colors"
+            className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm cursor-pointer hover:bg-slate-50 -mx-2 px-2 py-1.5 rounded-md transition-colors"
           >
             <Checkbox
               checked={milestone.completed}
@@ -144,8 +144,8 @@ export default function ProjectCard({ project }) {
             <span
               className={
                 milestone.completed
-                  ? "line-through text-slate-400 transition-all"
-                  : "text-slate-700"
+                  ? "line-through text-slate-400 transition-all break-words"
+                  : "text-slate-700 break-words"
               }
             >
               {milestone.title}
