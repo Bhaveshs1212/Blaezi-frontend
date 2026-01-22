@@ -230,57 +230,60 @@ export default function Dashboard() {
         />
       </section>
 
-      {/* MOMENTUM */}
-      <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 shadow-sm">
-        <p className="text-sm font-medium text-gray-500 mb-4 sm:mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-          Overall Momentum
-        </p>
+      {/* MOMENTUM & PRESSURE DETAILS - Grid layout for larger screens */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        {/* MOMENTUM */}
+        <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 shadow-sm">
+          <p className="text-sm font-medium text-gray-500 mb-4 sm:mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Overall Momentum
+          </p>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mt-2">
-          <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            {blaeziScore}
-          </span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mt-2">
+            <span className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#6366F1]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              {blaeziScore}
+            </span>
 
-          <div>
-            <p className="text-gray-900 font-semibold text-base sm:text-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Balanced but improvable
-            </p>
-            <p className="text-sm sm:text-base text-gray-600 font-light max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Consistency across projects and DSA will steadily
-              raise your momentum.
-            </p>
-            <p className="text-sm text-gray-500 mt-3 font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-              Trend:{" "}
-              {trend === "up"
-                ? "Improving ↑"
-                : trend === "down"
-                ? "Declining ↓"
-                : "Stable →"}
-            </p>
+            <div>
+              <p className="text-gray-900 font-semibold text-base sm:text-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                Balanced but improvable
+              </p>
+              <p className="text-sm sm:text-base text-gray-600 font-light max-w-md mt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                Consistency across projects and DSA will steadily
+                raise your momentum.
+              </p>
+              <p className="text-sm text-gray-500 mt-3 font-medium" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                Trend:{" "}
+                {trend === "up"
+                  ? "Improving ↑"
+                  : trend === "down"
+                  ? "Declining ↓"
+                  : "Stable →"}
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* PRESSURE DETAILS */}
-      <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 space-y-4 sm:space-y-6 shadow-sm">
-        <PressureBar
-          label="Projects"
-          value={projectsPressure}
-          color="bg-[#6366F1]"
-        />
+        {/* PRESSURE DETAILS */}
+        <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-100 p-6 sm:p-8 lg:p-10 space-y-4 sm:space-y-6 shadow-sm">
+          <PressureBar
+            label="Projects"
+            value={projectsPressure}
+            color="bg-[#6366F1]"
+          />
 
-        <PressureBar
-          label="DSA"
-          value={dsaPressure}
-          color="bg-[#8B5CF6]"
-        />
+          <PressureBar
+            label="DSA"
+            value={dsaPressure}
+            color="bg-[#8B5CF6]"
+          />
 
-        <PressureBar
-          label="Career / Exams"
-          value={careerPressure}
-          color="bg-[#EC4899]"
-        />
-      </section>
+          <PressureBar
+            label="Career / Exams"
+            value={careerPressure}
+            color="bg-[#EC4899]"
+          />
+        </section>
+      </div>
 
       {/* WEEKLY SUMMARY */}
       <section className="rounded-2xl sm:rounded-3xl bg-white border border-gray-200 p-6 sm:p-8 shadow-sm">

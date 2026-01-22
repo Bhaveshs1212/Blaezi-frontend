@@ -41,7 +41,7 @@ export default function Topbar({ onMenuClick }) {
   };
 
   return (
-    <header className="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-30 h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8">
       {/* Mobile menu button */}
       <button
         onClick={onMenuClick}

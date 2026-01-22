@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50
+        fixed inset-y-0 left-0 z-50
         w-64 bg-white border-r border-gray-100 px-6 py-8
         transform transition-transform duration-300 ease-in-out
         lg:transform-none
