@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../context/ProjectContext";
 import { useDsa } from "../../context/DsaContext";
 import { useCareer } from "../../context/CareerContext";
+import { usePlanner } from "../../context/PlannerContext";
 
 import PressureBar from "../../components/common/PressureBar";
 
 import { calculateCareerPressure } from "../../utils/CareerPressure";
 import { calculateDsaScore } from "../../utils/dsaScore";
+import { calculatePlannerPressure } from "../../utils/plannerPressure";
 import { normalizePressure } from "../../utils/Pressure";
 import { buildPressureProfile } from "../../utils/PressureEngine";
 import { getFocusRecommendation } from "../../utils/focusEngine";
@@ -26,6 +28,7 @@ export default function Dashboard() {
   const { projects } = useProjects();
   const { problems } = useDsa();
   const { events } = useCareer();
+  const { tasks } = usePlanner();
 
   /* ---------------- DERIVED VALUES ---------------- */
 
@@ -37,6 +40,11 @@ export default function Dashboard() {
   const careerPressure = useMemo(
     () => calculateCareerPressure(events),
     [events]
+  );
+
+  const plannerPressure = useMemo(
+    () => calculatePlannerPressure(tasks),
+    [tasks]
   );
 
   const projectsPressure = useMemo(() => {
@@ -104,8 +112,9 @@ export default function Dashboard() {
         projectPressure: projectsPressure,
         dsaPressure,
         careerPressure,
+        plannerPressure,
       }),
-    [projectsPressure, dsaPressure, careerPressure]
+    [projectsPressure, dsaPressure, careerPressure, plannerPressure]
   );
 
   useEffect(() => {
@@ -156,7 +165,7 @@ export default function Dashboard() {
     if (diff > 5) return "up";
     if (diff < -5) return "down";
     return "stable";
-  }, [projectsPressure, dsaPressure, careerPressure]);
+  }, [projectsPressure, dsaPressure, careerPressure, plannerPressure]);
 
   /* ---------------- UI ---------------- */
 
@@ -195,7 +204,7 @@ export default function Dashboard() {
       </section>
 
       {/* STATUS OVERVIEW */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatusCard
           title="Projects"
           value={
@@ -226,6 +235,17 @@ export default function Dashboard() {
               : careerPressure < 70
               ? "Upcoming"
               : "Urgent"
+          }
+        />
+
+        <StatusCard
+          title="Daily Tasks"
+          value={
+            plannerPressure < 30
+              ? "On track"
+              : plannerPressure < 60
+              ? "Moderate"
+              : "Heavy load"
           }
         />
       </section>
