@@ -10,6 +10,8 @@ import DsaOverview from "../pages/dsa/DsaOverview";
 import DsaProblems from "../pages/dsa/DsaProblems";
 import DsaTopics from "../pages/dsa/DsaTopics";
 import Career from "../pages/career/Career";
+import Planner from "../pages/planner/Planner";
+import CalendarPage from "../pages/planner/CalendarPage";
 import Analytics from "../pages/analytics/Analytics";
 import Settings from "../pages/settings/Settings";
 
@@ -28,6 +30,8 @@ function AppRouter() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/career" element={<Career />} />
+            <Route path="/planner" element={<Planner />} />
+            <Route path="/planner/calendar" element={<CalendarPage />} />
 
             {/* DSA */}
             <Route path="/dsa" element={<DsaOverview />} />
