@@ -1,0 +1,107 @@
+/* FullCalendar Custom Styles - Minimalist Flat Look */
+
+.calendar-container .fc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Remove default borders */
+.calendar-container .fc-theme-standard td,
+.calendar-container .fc-theme-standard th {
+  border: none;
+}
+
+.calendar-container .fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+
+/* Header styling */
+.calendar-container .fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.calendar-container .fc-button {
+  background-color: #F3F4F6;
+  border: none;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.calendar-container .fc-button:hover {
+  background-color: #E5E7EB;
+}
+
+.calendar-container .fc-button-active {
+  background-color: #6366F1 !important;
+  color: white !important;
+}
+
+/* Day cells */
+.calendar-container .fc-daygrid-day {
+  padding: 4px;
+  background-color: transparent;
+}
+
+.calendar-container .fc-daygrid-day-top {
+  padding: 8px;
+}
+
+.calendar-container .fc-col-header-cell {
+  background-color: #F9FAFB;
+  padding: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #6B7280;
+  letter-spacing: 0.05em;
+}
+
+/* Day numbers */
+.calendar-container .fc-daygrid-day-number {
+  padding: 4px 8px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.calendar-container .fc-day-today {
+  background-color: #EEF2FF !important;
+}
+
+.calendar-container .fc-day-today .fc-daygrid-day-number {
+  color: #6366F1;
+  font-weight: 700;
+}
+
+/* Events - Single line headline style */
+.calendar-container .fc-event {
+  border: none !important;
+  padding: 2px 6px;
+  margin: 2px 0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-container .fc-event:hover {
+  opacity: 0.8;
+}
+
+/* More events link */
+.calendar-container .fc-daygrid-more-link {
+  color: #6366F1;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+/* Remove scrollbars */
+.calendar-container .fc-scroller {
+  overflow: visible !important;
+}
