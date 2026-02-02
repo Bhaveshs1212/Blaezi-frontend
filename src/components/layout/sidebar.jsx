@@ -52,7 +52,9 @@ export default function Sidebar({ isOpen, onClose }) {
           <SidebarLink to="/dsa" label="DSA Practice" onClick={onClose} />
           <SidebarLink to="/projects" label="Projects" onClick={onClose} />
           <SidebarLink to="/career" label="Career" onClick={onClose} />
-          <SidebarLink to="/analytics" label="Analytics" onClick={onClose} />
+          <SidebarLink to="/planner" label="Planner" onClick={onClose} />
+
+          {/* <SidebarLink to="/analytics" label="Analytics" onClick={onClose} /> */}
           <SidebarLink to="/settings" label="Settings" onClick={onClose} />
         </nav>
       </aside>
