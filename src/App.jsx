@@ -2,6 +2,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ProjectProvider } from "./context/ProjectContext";
 import { DsaProvider } from "./context/DsaContext";
 import { CareerProvider } from "./context/CareerContext";
+import { PlannerProvider } from "./context/PlannerContext";
 import AppRouter from "./app/router";
 import LoadingScreen from "./components/common/LoadingScreen";
 
@@ -21,7 +22,9 @@ export default function App() {
       <ProjectProvider>
         <DsaProvider>
           <CareerProvider>
-            <AppContent />
+            <PlannerProvider>
+              <AppContent />
+            </PlannerProvider>
           </CareerProvider>
         </DsaProvider>
       </ProjectProvider>
