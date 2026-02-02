@@ -2,6 +2,7 @@ export function buildPressureProfile({
   projectPressure,
   dsaPressure,
   careerPressure,
+  plannerPressure,
 }) {
   return [
     {
@@ -18,6 +19,11 @@ export function buildPressureProfile({
       pillar: "career",
       label: "Career / Exams",
       pressure: careerPressure,
+    },
+    {
+      pillar: "planner",
+      label: "Daily Tasks",
+      pressure: plannerPressure,
     },
   ];
 }
