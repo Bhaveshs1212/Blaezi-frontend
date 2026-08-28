@@ -21,6 +21,7 @@ import {
 } from "../../utils/pressureHistory";
 import { getPressureTrend } from "../../utils/pressureTrend";
 import { buildWeeklySummary } from "../../utils/weeklySummary";
+import AiDailyPlanner from "./AiDailyPlanner";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -202,6 +203,9 @@ export default function Dashboard() {
           Go to {focus.action} →
         </button>
       </section>
+
+      {/* AI DAILY PLANNER */}
+      <AiDailyPlanner />
 
       {/* STATUS OVERVIEW */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
